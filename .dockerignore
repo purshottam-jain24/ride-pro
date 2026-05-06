@@ -1,0 +1,14 @@
+node_modules
+android
+.expo
+.git
+*.log
+*.lock
+*.md
+.vscode
+.idea
+.env*
+dist
+web-build
+ios
+.DS_Store
