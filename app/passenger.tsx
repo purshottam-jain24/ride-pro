@@ -243,8 +243,7 @@ export default function PassengerApp() {
         text: 'OK', onPress: () => {
           setPickup(schedule.pickup);
           setDropoff(schedule.dropoff);
-          const newOtp = Math.floor(1000 + Math.random() * 9000).toString();
-          setRideOtp(newOtp);
+          // OTP is generated centrally in RideContext when state -> 'searching'.
           setRideState('searching');
         },
       }]
@@ -622,8 +621,7 @@ export default function PassengerApp() {
                 icon="search"
                 onPress={() => {
                   tap(Haptics.ImpactFeedbackStyle.Medium);
-                  const newOtp = Math.floor(1000 + Math.random() * 9000).toString();
-                  setRideOtp(newOtp);
+                  // OTP is generated centrally in RideContext when state -> 'searching'.
                   setRideState('searching');
                 }}
               />

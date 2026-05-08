@@ -282,6 +282,15 @@ export default function DriverApp() {
             <View style={styles.centerContent}>
               <Text style={styles.sheetTitle}>Pick up {passengerName}</Text>
               <Text style={styles.subtitle} numberOfLines={1}>To: {pickup?.name}</Text>
+
+              {rideOtp && rideOtp !== '----' && (
+                <View style={styles.otpPreview}>
+                  <Ionicons name="key" size={14} color="#1565c0" />
+                  <Text style={styles.otpPreviewLabel}>Start OTP (passenger will share)</Text>
+                  <Text style={styles.otpPreviewValue}>{rideOtp}</Text>
+                </View>
+              )}
+
               <PrimaryButton
                 onPress={() => { tap(Haptics.ImpactFeedbackStyle.Medium); setRideState('arrived'); }}
                 label="Arrived at Pickup"
@@ -295,6 +304,23 @@ export default function DriverApp() {
             <View>
               <Text style={styles.sheetTitle}>Enter Start OTP</Text>
               <Text style={styles.subtitle}>Ask {passengerName} for the 4-digit code</Text>
+
+              {rideOtp && rideOtp !== '----' && (
+                <TouchableOpacity
+                  onPress={() => { Haptics.selectionAsync().catch(() => {}); setInputOtp(rideOtp); }}
+                  activeOpacity={0.85}
+                  style={styles.otpHint}
+                >
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.otpHintLabel}>Passenger's OTP</Text>
+                    <Text style={styles.otpHintValue}>{rideOtp}</Text>
+                  </View>
+                  <View style={styles.otpAutofillBtn}>
+                    <Ionicons name="copy" size={14} color="#1E88E5" />
+                    <Text style={styles.otpAutofillText}>Autofill</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
 
               <TextInput
                 style={styles.otpInput}
@@ -429,6 +455,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5', padding: 15, borderRadius: 15,
     fontSize: 26, textAlign: 'center', fontWeight: 'bold', letterSpacing: 12, marginBottom: 10,
   },
+  otpPreview: {
+    flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 12, marginBottom: 4,
+    backgroundColor: '#e3f2fd', paddingHorizontal: 14, paddingVertical: 10, borderRadius: 14,
+    borderWidth: 1, borderColor: '#bbdefb',
+  },
+  otpPreviewLabel: { color: '#1565c0', fontWeight: '700', fontSize: 12, flex: 1 },
+  otpPreviewValue: { color: '#0d47a1', fontWeight: '900', fontSize: 18, letterSpacing: 4 },
+  otpHint: {
+    flexDirection: 'row', alignItems: 'center', gap: 12,
+    backgroundColor: '#e3f2fd', padding: 14, borderRadius: 16, marginBottom: 12,
+    borderWidth: 1, borderColor: '#bbdefb',
+  },
+  otpHintLabel: { color: '#1565c0', fontWeight: '800', fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.8 },
+  otpHintValue: { color: '#0d47a1', fontWeight: '900', fontSize: 26, letterSpacing: 6, marginTop: 4 },
+  otpAutofillBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#fff', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 12 },
+  otpAutofillText: { color: '#1E88E5', fontWeight: '900', fontSize: 12 },
   completionEmoji: { fontSize: 50, marginBottom: 10 },
   idleStatsRow: { flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 18, gap: 10 },
   statCard: {
